@@ -1,0 +1,9 @@
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard2.0\WebApi.Client.csproj.CoreCompileInputs.cache
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard2.0\WebApi.Client.AssemblyInfoInputs.cache
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard2.0\WebApi.Client.AssemblyInfo.cs
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\bin\Release\netstandard2.0\AKSoftware.WebApi.deps.json
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\bin\Release\netstandard2.0\AKSoftware.WebApi.dll
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\bin\Release\netstandard2.0\AKSoftware.WebApi.pdb
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard2.0\AKSoftware.WebApi.dll
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard2.0\AKSoftware.WebApi.pdb
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard2.0\WebApi.Client.csprojAssemblyReference.cache

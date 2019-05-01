@@ -1,0 +1,4 @@
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard1.2\WebApi.Client.csprojResolveAssemblyReference.cache
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard1.2\WebApi.Client.csproj.CoreCompileInputs.cache
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard1.2\WebApi.Client.AssemblyInfoInputs.cache
+E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\obj\Release\netstandard1.2\WebApi.Client.AssemblyInfo.cs

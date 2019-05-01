@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>AKSoftware.WebApi</id>
+    <version>1.7.0</version>
+    <authors>Ahmad Mozaffar</authors>
+    <owners>Ahmad Mozaffar</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>AKSoftware.WebApi helps you to create a web api client easily with only a few lines of code</description>
+    <copyright>AK Software 2018</copyright>
+    <tags>AKSoftware C# .Net WebApi Client</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Newtonsoft.Json" version="11.0.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="E:\AK combany\Developer tools\WebApiClient.Service\WebApi.Client\bin\Release\netstandard2.0\AKSoftware.WebApi.dll" target="lib\netstandard2.0\AKSoftware.WebApi.dll" />
+  </files>
+</package>
