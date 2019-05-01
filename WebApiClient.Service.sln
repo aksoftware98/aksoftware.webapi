@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK WebApiClient.Service", "AK WebApiClient.Service\AK WebApiClient.Service.csproj", "{B45695E1-FBBF-4E3C-8081-445E22316333}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Client", "WebApi.Client\WebApi.Client.csproj", "{73918691-6C49-4ABE-8ECE-D14FF632E932}"
 EndProject
 Global
@@ -19,22 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|ARM.Build.0 = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|x64.Build.0 = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Debug|x86.Build.0 = Debug|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|ARM.ActiveCfg = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|ARM.Build.0 = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|x64.ActiveCfg = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|x64.Build.0 = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|x86.ActiveCfg = Release|Any CPU
-		{B45695E1-FBBF-4E3C-8081-445E22316333}.Release|x86.Build.0 = Release|Any CPU
 		{73918691-6C49-4ABE-8ECE-D14FF632E932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73918691-6C49-4ABE-8ECE-D14FF632E932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73918691-6C49-4ABE-8ECE-D14FF632E932}.Debug|ARM.ActiveCfg = Debug|Any CPU
