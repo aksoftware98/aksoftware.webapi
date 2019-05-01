@@ -10,12 +10,13 @@
     <DelaySign>false</DelaySign>
     <Authors>Ahmad Mozaffar</Authors>
     <Company>AK Software</Company>
-    <Description>AKSoftware.WebApi helps you to create a web api client easily with only a few lines of code</Description>
+    <Description>AKSoftware.WebApi helps you to consume any Web API from withing your C# based application just in a few lines of code</Description>
     <PackageTags>AKSoftware C# .Net WebApi Client</PackageTags>
-    <Copyright>AK Software 2018</Copyright>
-    <Version>1.7.0</Version>
+    <Copyright>AK Software 2019</Copyright>
+    <Version>2.0.0</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <NeutralLanguage>en</NeutralLanguage>
+    <PackageProjectUrl>https://github.com/aksoftware98/aksoftware.webapi/tree/Version2</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

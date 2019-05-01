@@ -8,22 +8,11 @@ using System.Threading.Tasks;
 
 namespace AKSoftware.WebApi.Client
 {
+
     public class ServiceClient
     {
+
         public string AccessToken { get; set; }
-        public string URL { get; set; }
-
-        // constructor to intialize the values 
-        public ServiceClient(string uRL)
-        {
-            URL = uRL;
-        }
-
-        // Default constructor 
-        public ServiceClient()
-        {
-
-        }
 
         #region ProfileMethods
 
@@ -32,12 +21,13 @@ namespace AKSoftware.WebApi.Client
         /// <summary>
         /// Login a user by verifying the username and password and return the access token for this login
         /// </summary>
+        /// <param name="url">URL of your Web API that represetns the login function </param>
         /// <param name="userName">Username </param>
         /// <param name="password">Password </param>
         /// <returns></returns>
-        public async Task<bool> LoginUser(string userName, string password)
+        public async Task<bool> LoginUserAsync(string url, string userName, string password)
         {
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, URL + "token");
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url);
 
             List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
             keyValues.Add(new KeyValuePair<string, string>("username", userName));
@@ -63,81 +53,18 @@ namespace AKSoftware.WebApi.Client
             else
                 return true;
         }
-
-
-        // Method to login and get a object with access token 
-
-        /// <summary>
-        /// Login a user by verifying a username and password but return it with an object that represents a user in 
-        /// your database in the web api 
-        /// </summary>
-        /// <param name="methodUrl">the URL of the user or object that you want to get</param>
-        /// <param name="userName">The username of the user</param>
-        /// <param name="password">The password of the user</param>
-        /// <returns></returns>
-        public async Task<object> LoginUser(string methodUrl, string userName, string password)
-        {
-            // Get the access token 
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, URL + "token");
-
-            List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
-            keyValues.Add(new KeyValuePair<string, string>("username", userName));
-            keyValues.Add(new KeyValuePair<string, string>("password", password));
-            keyValues.Add(new KeyValuePair<string, string>("grant_type", "password"));
-
-            HttpContent content = new FormUrlEncodedContent(keyValues);
-            message.Content = content;
-
-            HttpClient client = new HttpClient();
-
-            var response = await client.SendAsync(message);
-            string jsonData = await response.Content.ReadAsStringAsync();
-
-            JObject obj = JsonConvert.DeserializeObject<JObject>(jsonData);
-            string accessToken = obj.Value<string>("access_token");
-            AccessToken = accessToken;
-
-
-            if (accessToken != "")
-            {
-                // Get a model 
-                client = new HttpClient();
-                // Authoirze the user 
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-
-                UserInfo userInfo = new UserInfo
-                {
-                    Username = userName,
-                    Password = password
-                };
-
-                // Serialize the user info data to put it inside the content 
-                string userInfoJsonData = JsonConvert.SerializeObject(userInfo);
-
-                HttpContent userContent = new StringContent(userInfoJsonData);
-
-                // Send a get request to get the user
-                var userResponse = await client.PostAsync(URL + methodUrl, userContent);
-                var userJsonData = await userResponse.Content.ReadAsStringAsync();
-
-                var userModel = JsonConvert.DeserializeObject<object>(userJsonData);
-
-                return userModel;
-            }
-            else
-                return null;
-        }
-
+        
         // Method to register 
 
         /// <summary>
         /// Register a new user in your database by send the username, password and the confirmation of the password
         /// </summary>
+        /// <param name="url">URL of your Web API that represetns the  register </param>
         /// <param name="userName">The username of the user</param>
         /// <param name="password">The password of the user</param>
         /// <param name="confirmPassword">The confiramtion of the user's password</param>
         /// <returns></returns>
-        public async Task<bool> RegisterUser(string userName, string password, string confirmPassword)
+        public async Task<bool> RegisterUserAsync(string url, string userName, string password, string confirmPassword)
         {
             HttpClient client = new HttpClient();
 
@@ -154,7 +81,7 @@ namespace AKSoftware.WebApi.Client
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var response = await client.PostAsync(URL + "api/account/register", content);
+            var response = await client.PostAsync(url, content);
 
             return response.IsSuccessStatusCode;
 
@@ -170,10 +97,11 @@ namespace AKSoftware.WebApi.Client
         /// Make an unauthorized POST request to your web api and return a specific model 
         /// </summary>
         /// <typeparam name="T">Your data type that you want to send and get</typeparam>
+        /// <param name="methodUrl">URL of your Web API that represetns the POST function </param>
         /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
         /// <param name="model"> The model or object that you want to send</param>
         /// <returns></returns>
-        public async Task<T> Post<T>(string methodUrl, object model)
+        public async Task<T> PostAsync<T>(string methodUrl, object model)
         {
             HttpClient client = new HttpClient();
 
@@ -185,7 +113,7 @@ namespace AKSoftware.WebApi.Client
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
             // Make a request 
-            var response = await client.PostAsync(URL + methodUrl, content);
+            var response = await client.PostAsync(methodUrl, content);
             var responseAsString = await response.Content.ReadAsStringAsync();
 
             // Deserialize the coming object into a T object 
@@ -200,14 +128,15 @@ namespace AKSoftware.WebApi.Client
         /// Make an unauthorized GET request to your web api and return a specific model
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
+        /// <param name="methodUrl">URL of your Web API that represetns the GET function </param>
         /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
         /// <returns></returns>
-        public async Task<T> Get<T>(string methodUrl)
+        public async Task<T> GetAsync<T>(string methodUrl)
         {
             HttpClient client = new HttpClient();
 
             // Send a request and get the response 
-            var response = await client.GetAsync(URL + methodUrl);
+            var response = await client.GetAsync(methodUrl);
             // Read the data 
             var jsonData = await response.Content.ReadAsStringAsync();
 
@@ -219,14 +148,14 @@ namespace AKSoftware.WebApi.Client
         /// <summary>
         /// Make an unauthorized GET request to your web api and return the result as a raw json
         /// </summary>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the GET function </param>
         /// <returns></returns>
-        public async Task<string> GetJsonResult(string methodUrl)
+        public async Task<string> GetJsonResultAsync(string methodUrl)
         {
             HttpClient client = new HttpClient();
 
             // Send requant the get the response 
-            var response = await client.GetAsync(URL + methodUrl);
+            var response = await client.GetAsync(methodUrl);
             // Read the data 
             var jsonData = await response.Content.ReadAsStringAsync();
             return jsonData;
@@ -238,11 +167,11 @@ namespace AKSoftware.WebApi.Client
         /// Make an unauthorized PUT request to your web api to alter a specific data model
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the PUT function </param>
         /// <param name="model">The model or object that you want to alter</param>
         /// <param name="id">The id of the object that you want to alter</param>
         /// <returns></returns>
-        public async Task<bool> Put<T>(string methodUrl, object model, int id)
+        public async Task<bool> PutAsync<T>(string methodUrl, object model, int id)
         {
             HttpClient client = new HttpClient();
 
@@ -252,7 +181,7 @@ namespace AKSoftware.WebApi.Client
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var response = await client.PutAsync(URL + methodUrl + "/" + id, content);
+            var response = await client.PutAsync(methodUrl + "/" + id, content);
 
             return response.IsSuccessStatusCode;
         }
@@ -262,11 +191,11 @@ namespace AKSoftware.WebApi.Client
         /// Make an unauthorized PUT request to your web api to alter a specific data model
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the PUT function </param>
         /// <param name="model">The model or object that you want to alter</param>
         /// <param name="id">The id of the object that you want to alter</param>
         /// <returns></returns>
-        public async Task<T> Put<T>(string methodUrl, object model)
+        public async Task<T> PutAsync<T>(string methodUrl, object model)
         {
             HttpClient client = new HttpClient();
 
@@ -276,7 +205,7 @@ namespace AKSoftware.WebApi.Client
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var response = await client.PutAsync(URL + methodUrl, content);
+            var response = await client.PutAsync(methodUrl, content);
 
             // Read the data 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -292,14 +221,14 @@ namespace AKSoftware.WebApi.Client
         /// Make an unauthorized DELETE request to your web api to delete a specific object
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the DELETE function </param>
         /// <param name="id">The id of the object that you want to delete</param>
         /// <returns></returns>
-        public async Task<T> Delete<T>(string methodUrl, int id)
+        public async Task<T> DeleteAsync<T>(string methodUrl, int id)
         {
             HttpClient client = new HttpClient();
 
-            var response = await client.DeleteAsync(URL + methodUrl + "/" + id);
+            var response = await client.DeleteAsync(methodUrl + "/" + id);
             var jsonData = await response.Content.ReadAsStringAsync();
 
             T obj = JsonConvert.DeserializeObject<T>(jsonData);
@@ -312,16 +241,17 @@ namespace AKSoftware.WebApi.Client
         /// Make an unauthorized DELETE request to your web api to delete a specific object
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the DELETE function </param>
+        /// <param name="model">Instance of the object that you want to send it to the API to Delete </param>
         /// <returns></returns>
-        public async Task<T> Delete<T>(string methodUrl, object model)
+        public async Task<T> DeleteAsync<T>(string methodUrl, object model)
         {
             HttpClient client = new HttpClient();
             
             string jsonData = JsonConvert.SerializeObject(model);
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            var response = await client.DeleteAsync(URL + methodUrl);
+            var response = await client.DeleteAsync(methodUrl);
             var responseString = await response.Content.ReadAsStringAsync();
 
             T obj = JsonConvert.DeserializeObject<T>(jsonData);
@@ -338,10 +268,10 @@ namespace AKSoftware.WebApi.Client
         /// Make a protected POST request to your web api and return a specific model 
         /// </summary>
         /// <typeparam name="T">Your data type that you want to send and get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the protected POST function </param>
         /// <param name="model"> The model or object that you want to send</param>
         /// <returns></returns>
-        public async Task<T> PostProtected<T>(string methodUrl, object model)
+        public async Task<T> PostProtectedAsync<T>(string methodUrl, object model)
         {
             HttpClient client = new HttpClient();
 
@@ -356,7 +286,7 @@ namespace AKSoftware.WebApi.Client
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
             // Make a request 
-            var response = await client.PostAsync(URL + methodUrl, content);
+            var response = await client.PostAsync(methodUrl, content);
             var responseAsString = await response.Content.ReadAsStringAsync();
 
             // Deserialize the coming object into a T object 
@@ -371,16 +301,16 @@ namespace AKSoftware.WebApi.Client
         /// Make a protected GET request to your web api and return a specific model
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the GET function </param>
         /// <returns></returns>
-        public async Task<T> GetProtected<T>(string methodUrl)
+        public async Task<T> GetProtectedAsync<T>(string methodUrl)
         {
             HttpClient client = new HttpClient();
 
             // Set the access token for the request 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AccessToken);
             // Send a request and get the response 
-            var response = await client.GetAsync(URL + methodUrl);
+            var response = await client.GetAsync(methodUrl);
             // Read the data 
             var jsonData = await response.Content.ReadAsStringAsync();
 
@@ -393,16 +323,16 @@ namespace AKSoftware.WebApi.Client
         /// <summary>
         /// Make an authorized GET Request to your data source 
         /// </summary>
-        /// <param name="methodUrl">The name of the Method in the URL of your data source</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the gET function </param>
         /// <returns></returns>
-        public async Task<string> GetProtectedJsonResult(string methodUrl)
+        public async Task<string> GetProtectedJsonResultAsync(string methodUrl)
         {
             HttpClient client = new HttpClient();
 
             // Set the access token for the request 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AccessToken);
             // Send a request and get the response 
-            var response = await client.GetAsync(URL + methodUrl);
+            var response = await client.GetAsync(methodUrl);
             // Read the data 
             var jsonData = await response.Content.ReadAsStringAsync();
 
@@ -416,11 +346,11 @@ namespace AKSoftware.WebApi.Client
         /// Make a protected PUT request to your web api to alter a specific data model
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the PUT function </param>
         /// <param name="model">The model or object that you want to alter</param>
         /// <param name="id">The id of the object that you want to alter</param>
         /// <returns></returns>
-        public async Task<T> PutProtected<T>(string methodUrl, object model, int id)
+        public async Task<T> PutProtectedAsync<T>(string methodUrl, object model, int id)
         {
             HttpClient client = new HttpClient();
 
@@ -432,7 +362,7 @@ namespace AKSoftware.WebApi.Client
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var response = await client.PutAsync(URL + methodUrl + "/" + id, content);
+            var response = await client.PutAsync(methodUrl + "/" + id, content);
 
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -445,10 +375,10 @@ namespace AKSoftware.WebApi.Client
         /// Make a protected PUT request to your web api to alter a specific data model
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the PUT function </param>
         /// <param name="model">The model or object that you want to alter</param>
         /// <returns></returns>
-        public async Task<T> PutProtected<T>(string methodUrl, object model)
+        public async Task<T> PutProtectedAsync<T>(string methodUrl, object model)
         {
             HttpClient client = new HttpClient();
 
@@ -460,7 +390,7 @@ namespace AKSoftware.WebApi.Client
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var response = await client.PutAsync(URL + methodUrl, content);
+            var response = await client.PutAsync(methodUrl, content);
 
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -475,17 +405,17 @@ namespace AKSoftware.WebApi.Client
         /// Make a protected DELETE request to your web api to delete a specific object
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the DELETE function </param>
         /// <param name="id">The id of the object that you want to delete</param>
         /// <returns></returns>
-        public async Task<T> DeleteProtected<T>(string methodUrl, int id)
+        public async Task<T> DeleteProtectedAsync<T>(string methodUrl, int id)
         {
             HttpClient client = new HttpClient();
 
             // Set the access token for the request 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AccessToken);
 
-            var response = await client.DeleteAsync(URL + methodUrl + "/" + id);
+            var response = await client.DeleteAsync(methodUrl + "/" + id);
             var jsonData = await response.Content.ReadAsStringAsync();
 
             T obj = JsonConvert.DeserializeObject<T>(jsonData);
@@ -498,9 +428,10 @@ namespace AKSoftware.WebApi.Client
         /// Make a protected DELETE request to your web api to delete a specific object
         /// </summary>
         /// <typeparam name="T">Your data type that you want to get</typeparam>
-        /// <param name="methodUrl">The Method name in the URL of your data source in the web api</param>
+        /// <param name="methodUrl">URL of your Web API that represetns the DELETE function </param>
+        /// <param name="model">The model or object that you want to delete</param>
         /// <returns></returns>
-        public async Task<T> DeleteProtected<T>(string methodUrl, object model)
+        public async Task<T> DeleteProtectedAsync<T>(string methodUrl, object model)
         {
             HttpClient client = new HttpClient();
 
@@ -510,7 +441,7 @@ namespace AKSoftware.WebApi.Client
             string jsonData = JsonConvert.SerializeObject(model);
             HttpContent content = new StringContent(jsonData);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json"); 
-            var response = await client.DeleteAsync(URL + methodUrl);
+            var response = await client.DeleteAsync( methodUrl);
             var responseString = await response.Content.ReadAsStringAsync();
 
             T obj = JsonConvert.DeserializeObject<T>(jsonData);
