@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AKSoftware.WebApi</RootNamespace>
+    <AssemblyName>AKSoftware.WebApi</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>AKSoftware.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <Authors>Ahmad Mozaffar</Authors>
+    <Company>AK Software</Company>
+    <Description>AKSoftware.WebApi helps you to create a web api client easily with only a few lines of code</Description>
+    <PackageTags>AKSoftware C# .Net WebApi Client</PackageTags>
+    <Copyright>AK Software 2018</Copyright>
+    <Version>1.7.0</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+</Project>
